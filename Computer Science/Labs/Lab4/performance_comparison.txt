@@ -1,0 +1,35 @@
+SPEED COMPARISON RESULTS (100 runs each):
+
+MANUAL PARSER:
+Total time: 310.04 milliseconds
+Average per run: 3.10 milliseconds
+
+LIBRARY PARSER:
+Total time: 55.81 milliseconds  
+Average per run: 0.56 milliseconds
+
+COMPARISON:
+LIBRARY parser is 5.6x faster
+LIBRARY is 82.0% faster than the other method
+
+ANALYSIS:
+
+MANUAL PARSER:
++ Full control over parsing logic
++ No external dependencies
++ Educational - understand how parsing works
+- More code to write and maintain
+- Slower for complex TOML files
+
+LIBRARY PARSER:
++ Much less code to write
++ Handles all TOML features automatically
++ Better error handling
++ Standard compliant
+- Requires external dependency
+- Less educational value
+
+CONCLUSION:
+For simple TOML files like our schedule, both methods work well.
+For production use with complex TOML, the library is recommended.
+For learning purposes, manual parsing provides better understanding.

@@ -1,87 +1,55 @@
-"""
-Use a library to read TOML instead of doing it manually
-Compare with our manual method
-"""
-# Try to use Python's built-in TOML library (Python 3.11+)
-try:
-    import tomllib
-except ImportError:
-    # For older Python, use external library
-    try:
-        import tomli as tomllib
-    except ImportError:
-        print("Please install: pip install tomli")
-        exit(1)
+from openpyxl import load_workbook
+from openpyxl.styles import Border, Side
 
-def read_toml_with_library(file_path):
-    """
-    Let the library do the hard work of reading TOML
-    """
-    with open(file_path, 'rb') as file:
-        return tomllib.load(file)
+def format_excel_with_borders():
+    input_file = "Lab5.xlsx"
+    output_file = "Lab5_With_Borders.xlsx"
+    
+    # Load the original workbook
+    wb = load_workbook(input_file)
+    ws = wb.active
+    
+    # Define border styles
+    thin = Side(style="thin", color="000000")
+    thick = Side(style="thick", color="000000")
+    
+    # Create borders
+    general_border = Border(left=thin, right=thin, top=thin, bottom=thin)
+    thick_right_border = Border(left=thin, right=thick, top=thin, bottom=thin)
+    
+    # Remove column F (index 6 in 1-based)
+    ws.delete_cols(6)
+    print("✅ Removed column F")
+    
+    # Apply GENERAL BORDER around A4:Z15 (now A4:Y15 after removing F)
+    for row in range(4, 16):  # Rows 4-15
+        for col in range(1, 26):  # Columns A-Y (1-25)
+            ws.cell(row, col).border = general_border
+    
+    # Apply THICK RIGHT BORDERS to specific columns
+    # After removing F: A=1, B=2, C=3, E=5, G=6
+    thick_right_columns = [1, 2, 3, 5, 6]  # A, B, C, E, G
+    
+    for col in thick_right_columns:
+        for row in range(4, 16):  # Rows 4-15
+            cell = ws.cell(row, col)
+            # Apply thick right border while keeping other borders
+            cell.border = Border(
+                left=cell.border.left or thin,
+                right=thick,  # This is the thick right border
+                top=cell.border.top or thin,
+                bottom=cell.border.bottom or thin
+            )
+    
+    # Save the result
+    wb.save(output_file)
+    
+    print(f"✅ Success! Output saved to: {output_file}")
+    print("📋 Applied formatting:")
+    print("   - General border around A4:Y15")
+    print("   - Thick right border on columns: A, B, C, E, G")
+    print("   - Column F removed")
+    print("   - All other content and formatting preserved")
 
-def make_hcl_from_library_data(data):
-    """
-    Same HCL maker as before, but using library data
-    """
-    lines = []
-    
-    lines.append("# Made with TOML library")
-    lines.append("")
-    
-    # Basic info
-    lines.append(f'variant = {data["variant"]}')
-    lines.append(f'isu = {data["isu"]}')
-    lines.append(f'week = "{data["week"]}"')
-    lines.append('')
-    
-    # Days and events
-    for day in ['tuesday', 'thursday']:
-        if day in data:
-            lines.append(f'day "{day}" {{')
-            
-            for event in data[day]['events']:
-                lines.append('  event {')
-                for key, value in event.items():
-                    safe_value = str(value).replace('"', '\\"')
-                    lines.append(f'    {key} = "{safe_value}"')
-                lines.append('  }')
-                
-            lines.append('}')
-            lines.append('')
-    
-    return '\n'.join(lines)
-
-if __name__ == '__main__':
-    print("=== EXTRA TASK 2 (+10% of grade) ===")
-    print("Using library to read TOML...")
-    
-    # Part 1: Use library to read TOML
-    library_data = read_toml_with_library('schedule_503266_v82.toml')
-    print("✓ Library read the TOML file")
-    print(f"  Found: variant={library_data['variant']}, ISU={library_data['isu']}")
-    
-    # Part 2: Make HCL from library data
-    library_hcl = make_hcl_from_library_data(library_data)
-    
-    # Save it
-    with open('schedule_503266_v82_library.hcl', 'w', encoding='utf-8') as file:
-        file.write(library_hcl)
-    print("✓ Saved HCL file made with library")
-    
-    # Part 3: Compare methods
-    print("\nCOMPARISON:")
-    print("What's the same:")
-    print("- Both make identical HCL files")
-    print("- Both get the same data from TOML")
-    print("- Russian text works fine in both")
-    
-    print("\nWhat's different:")
-    print("- Library: Handles any TOML file correctly")
-    print("- Library: Better at finding errors")
-    print("- Manual: We wrote all the code ourselves")
-    print("- Manual: No extra libraries needed")
-    
-    print("\nConclusion:")
-    print("Both work the same for our schedule file.")
-    print("Library is easier, manual is more educational.")
+# Run the function
+format_excel_with_borders()

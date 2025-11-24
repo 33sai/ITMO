@@ -1,7 +1,7 @@
 SPEED TEST RESULTS (100 runs):
 
-Total time: 536.48 milliseconds
-Average per run: 5.36 milliseconds
+Total time: 904.16 milliseconds
+Average per run: 9.04 milliseconds
 
 WHAT THIS MEANS:
 - Our code is pretty fast!
