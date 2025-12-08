@@ -1,0 +1,115 @@
+\documentclass[12pt]{article} % 12pt article document
+
+% ---- encoding and language ----
+\usepackage[utf8]{inputenc} % UTF-8 input encoding
+\usepackage[T2A]{fontenc}   % Cyrillic font encoding
+\usepackage[english,russian]{babel} % languages: English + Russian
+
+% ---- layout and appearance ----
+\usepackage[a4paper, left=20mm, right=15mm, top=16mm, bottom=18mm]{geometry} % page margins
+\usepackage{paracol}       % parallel columns
+\usepackage{graphicx}      % images
+\usepackage{xcolor}        % colors
+\usepackage{setspace}      % line spacing
+\usepackage{float}         % control float placement
+\usepackage{microtype}     % better typographic spacing
+\usepackage{array}         % better tables
+\usepackage{ragged2e}      % ragged text alignment
+
+\usepackage{tempora}       % Times-like font
+
+\pagestyle{empty}          % no page numbers
+\setlength{\columnsep}{14pt} % spacing between columns
+
+\newcommand{\magentaTitle}[1]{\noindent\textcolor[rgb]{0.99,0.05,0.75}{\textbf{#1}}} % colored section title
+
+\begin{document}
+
+\columnratio{0.60,0.40} % ratio between the two columns
+
+\begin{paracol}{2} % begin 2-column environment
+
+% LEFT COLUMN
+\begin{leftcolumn}
+
+\begin{figure}[H] % image with fixed placement
+  \centering
+  \includegraphics[width=\linewidth]{image.png} % image fills column width
+  {\small Рис. 7.\par} % small caption
+\end{figure}
+
+\vspace{6pt}
+
+\magentaTitle{Шаг 2 -- изучаем удобные функции.} % section title in magenta
+
+Если \textit{f} и \textit{g} -- удобные функции, а \textit{c} и \textit{d} -- действительные числа, то функция \textit{cf + dg}, которая по определению принимает на фигуре \textit{F} значение $cf(F)+dg(F)$, очевидно, является удобной.
+
+\begin{spacing}{1.35} % increased line spacing
+Итак, с удобными функциями можно обращаться как с векторами: их можно умножать на действительные числа и складывать. Положим, например, \textit{P = N\textsubscript{2} -- 2N + E} (т. е. $P(F)=N(2F)-2N(F)+E(F)$). Так как функции \textit{N\textsubscript{2}}, \textit{N} и \textit{E} -- удобные, то и функция \textit{P} -- удобная.
+\end{spacing}
+
+Сопоставим теперь каждой удобной функции $f\in Y$ вектор в трёхмерном пространстве, а именно,
+
+% FIXED NON-OVERLAPPING FORMULA 
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{@{}c@{}}
+$(f(X_1);\; f(X_2);\; f(X_3))$ % column vector notation
+\end{tabular}
+\end{table}
+
+
+где $X_1, X_2, X_3$ -- три целочисленные фигуры, изображённые на рисунке~7. Этот вектор будем обозначать через $\vec f$. В первых строках таблицы 1 записано, какие векторы сопоставляются уже известным нам функциям.
+
+\vspace{6pt}
+\noindent\textbf{Т а б л и ц а 1} % table title
+
+\small
+\setlength{\tabcolsep}{4pt}    % cell padding
+\renewcommand{\arraystretch}{1.02} % row height
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|} % bordered table
+  \hline
+  & $f$ & $f(X_1)$ & $f(X_2)$ & $f(X_3)$ \\ \hline
+  1 & $S$ & 0 & 0 & $1/2$ \\ \hline
+  2 & $N$ & 1 & 2 & 3 \\ \hline
+  3 & $E$ & 1 & 1 & 1 \\ \hline
+  4 & $N_2$ & 1 & 3 & 6 \\ \hline
+  5 & $P$ & 0 & 0 & 1 \\ \hline
+  6 & ? & 0 & 2 & 3 \\ \hline
+  7 & $e_1=2E+2S-N$ & 1 & 0 & 0 \\ \hline
+  8 & $e_2=N-E-4S$ & 0 & 1 & 0 \\ \hline
+  9 & $e_3=2S$ & 0 & 0 & 1 \\ \hline
+\end{tabular}
+\end{center}
+\normalsize
+
+\end{leftcolumn}
+
+% RIGHT COLUMN 
+\switchcolumn % move to second column
+
+ % left alignment without justification
+
+А всякий ли вектор соответствует какой-нибудь удобной функции (например, вектор $(0;2;3)$ из шестой строки)? Положительный ответ дают строки 7--9 таблицы 1. Из них видно, что удобным функциям $e_1,e_2,e_3$ соответствуют базисные векторы в трёхмерном пространстве. Поэтому для любых чисел $c_1,c_2,c_3$ можно указать удобную функцию $c_1e_1+c_2e_2+c_3e_3$.
+
+\bigskip
+
+\magentaTitle{Шаг 3 -- критерий совпадения удобных функций.} % new subsection
+
+До сих пор мы нигде не пользовались тем, что имеем дело с удобными функциями. Любой функции на $\Phi$ можно сопоставить вектор трёхмерного пространства. Например, функции $R$ из упражнения 2 соответствует вектор из шестой строки таблицы 1. Особое «удобство» удобных функций заключается в том, что между ними и векторами трёхмерного пространства имеется \textit{взаимно однозначное соответствие}. Иными словами, если $f$ и $g$ -- удобные функции и $\vec f=\vec g$, то $f=g$.
+
+Обозначим разность $f-g$ через $h$. Тогда утверждение о взаимной однозначности принимает такой вид.
+
+\medskip
+
+\noindent\textbf{Основная теорема.} \textit{Если $h\in Y$ и вектор $\vec h$ равен нулю, то функция $h$ есть тождественный нуль.}
+
+Мы рекомендуем читателю доказать основную теорему самостоятельно или прочесть доказательство в приложении.
+
+Из основной теоремы сразу следует формула (б). Действительно, из первой и пятой строк таблицы 1 мы получаем, что вектор, соответствующий функции $P-2S$, нулевой. Так как функция $P-2S$ удобная, то по основной теореме $P-2S=0$ для любой фигуры $F$.
+
+\end{paracol}
+
+\end{document}

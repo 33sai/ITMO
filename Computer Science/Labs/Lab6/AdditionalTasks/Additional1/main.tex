@@ -1,0 +1,32 @@
+\documentclass[12pt,onecolumn]{article} % 12pt font, single-column article
+
+\usepackage{float}         % improved float control
+\usepackage{subfiles}      % allows splitting project into subfiles
+\usepackage{fancyhdr}      % custom headers/footers
+\usepackage{multicol}      % multi-column text support
+\usepackage[english,russian]{babel} % languages: English + Russian
+\usepackage[utf8]{inputenc} % UTF-8 encoding
+\usepackage[T2A]{fontenc}   % Cyrillic font encoding
+\usepackage{floatrow}       % alignment of floats, captions, etc.
+\usepackage{indentfirst}    % indent the first paragraph of sections
+\usepackage{setspace}       % line spacing control
+\usepackage[usenames]{color} % named colors
+\usepackage{colortbl}       % colored table elements
+\usepackage[left=20mm, top=20mm, right=20mm, bottom=20mm, nohead, nofoot]{geometry} % page margins, no header/footer
+\usepackage{tempora}        % Times-like text font
+\usepackage{newtxmath}      % math font matching Times style
+\usepackage{musixtex}
+\pagestyle{empty}           % suppress page numbers
+
+
+\usepackage[pdftex]{graphicx} % graphics package optimized for PDFLaTeX
+
+
+\begin{document}
+
+\subfile{titlepage} % include separate title page file
+\newpage            % page break after title page
+\subfile{kvant}     % include main document content from "kvant.tex"
+\newpage
+\subfile{greatbritain}
+\end{document}

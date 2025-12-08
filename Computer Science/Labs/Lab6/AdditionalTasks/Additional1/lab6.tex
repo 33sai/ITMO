@@ -1,0 +1,71 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{multicol}
+\usepackage{array}
+\usepackage{geometry}
+\geometry{a4paper, margin=2cm}
+
+\title{\vspace{-3em}\bfseries\LARGE Согревающие формулы}
+\date{}
+
+\begin{document}
+	
+	\maketitle
+	
+	\begin{multicols}{2}
+		\noindent
+		
+		Зимой в студенческих общежитиях особенно остро ощущается нехватка горячего чая. Попробуем математически описать процесс получения "согревающего" напитка, используя некоторые простые формулы.
+		
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=0.4\linewidth]{tea1.jpg}
+			\caption*{Рис. 1. Чашка с кипятком.}
+		\end{figure}
+		
+		Предположим, что в одной чашке находится чай температурой $1^\circ C$, а в другой — $3^\circ C$. При смешении их поровну температура будет:
+		\[
+		t = \frac{1^\circ + 3^\circ}{2} = 2^\circ C.
+		\]
+		
+		Добавим третью чашку также с температурой $1^\circ C$. Тогда средняя температура:
+		\[
+		t = \frac{1^\circ+3^\circ + 2\cdot1^\circ}{1+1} = \frac{5}{2}^\circ C.
+		\]
+		
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=0.4\linewidth]{tea2.jpg}
+			\caption*{Рис. 2. Смешивание жидкостей.}
+		\end{figure}
+		
+		\noindent
+		Можно обобщить процесс по следующей рекуррентной формуле:
+		\[
+		t_{k+1} = \frac{1}{n}(nt_k+1),
+		\]
+		где $n$ — количество порций, $t_k$ — текущая температура.
+		
+		\begin{center}
+			\captionof{table}{Результаты подогрева при последовательных смешиваниях}
+			\begin{tabular}{|c|c|c|c|}
+				\hline
+				\textbf{Шаг} & $t_k$ & $n$ & $t_{k+1}$ \\
+				\hline
+				1 & 1.0 & 1 & 2.0 \\
+				2 & 2.0 & 2 & 2.5 \\
+				3 & 2.5 & 3 & 2.75 \\
+				4 & 2.75 & 4 & 2.875 \\
+				\hline
+			\end{tabular}
+		\end{center}
+		
+		Таким образом, даже простое смешение жидкости можно описать при помощи несложной, но интересной математики.
+		
+	\end{multicols}
+	
+\end{document}
