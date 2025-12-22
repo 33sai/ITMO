@@ -1,13 +1,15 @@
-import java.util.Objects;
+public class Ship extends Transport implements Movable {
 
-public class Ship implements Sailable {
+    private int stability;
 
-    private int stability = 100;
-    private Position position = new Position(0, 0);
+    public Ship(Position position) {
+        super(position);
+        this.stability = 100;
+    }
 
     public void rollOnWaves() {
-        stability -= 10;
-        System.out.println("The ship rolls on the waves. Stability: " + stability);
+        stability -= 15;
+        System.out.println("Ship rolls on waves. Stability = " + stability);
     }
 
     public void enterBay() {
@@ -15,7 +17,7 @@ public class Ship implements Sailable {
     }
 
     @Override
-    public void sail() throws StormException {
+    public void move() throws StormException {
         if (stability < 20) {
             throw new StormException();
         }
@@ -23,17 +25,17 @@ public class Ship implements Sailable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        return o instanceof Ship;
+    public boolean equals(Object obj) {
+        return obj instanceof Ship;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(stability);
+        return Integer.hashCode(stability);
     }
 
     @Override
     public String toString() {
-        return "Ship{stability=" + stability + "}";
+        return "Ship{stability=" + stability + ", position=" + position + "}";
     }
 }

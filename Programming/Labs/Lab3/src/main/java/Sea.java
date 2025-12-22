@@ -8,7 +8,7 @@ public class Sea {
 
     public void changeState(SeaState newState) {
         state = newState;
-        System.out.println("Sea state changed to " + state);
+        System.out.println("Sea becomes " + state);
     }
 
     public SeaState getState() {
