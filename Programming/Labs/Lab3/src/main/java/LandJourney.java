@@ -20,8 +20,12 @@ public class LandJourney extends Journey {
 
             land.changeState(LandState.NORMAL);
 
-        } catch (StormException e) {
+        } catch (StormException | ArrayIndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
         }
     }
+
+    public void test(){}
+
+    public int test(String w){return 0;}
 }

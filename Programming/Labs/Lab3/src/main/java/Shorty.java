@@ -1,5 +1,5 @@
+import java.util.Comparator;
 import java.util.Random;
-
 public class Shorty extends Character {
 
     private int fear;
@@ -11,12 +11,12 @@ public class Shorty extends Character {
         this.fear = 0;
         this.awake = true;
     }
-
+    @Ariunbat(times = 3)
     public void feelFear() {
         fear += RANDOM.nextInt(10);
         System.out.println(name + " feels fear. Fear = " + fear);
     }
-
+    @Ariunbat(times = 4)
     public void getTired() {
         fatigue += RANDOM.nextInt(15);
         if (fatigue > 100) {
@@ -25,6 +25,15 @@ public class Shorty extends Character {
         System.out.println(name + " gets tired. Fatigue = " + fatigue);
     }
 
+    public int getFear() {
+        return this.fear;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    @Ariunbat
     public void sleep() {
         awake = false;
         fatigue = Math.max(0, fatigue - 30);
@@ -42,4 +51,8 @@ public class Shorty extends Character {
         return "Shorty{name='" + name + "', fear=" + fear +
                 ", fatigue=" + fatigue + ", awake=" + awake + "}";
     }
+
+    public static final Comparator<Shorty> BY_FEAR_THEN_NAME =
+            Comparator.comparingInt(Shorty::getFear)
+                    .thenComparing(Shorty::getName);
 }

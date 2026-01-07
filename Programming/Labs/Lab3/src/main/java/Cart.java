@@ -1,5 +1,4 @@
 public class Cart extends Transport implements Movable {
-
     private int durability;
 
     public Cart(Position position) {

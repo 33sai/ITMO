@@ -14,5 +14,8 @@ public abstract class Journey {
         characters.add(character);
     }
 
+    public ArrayList<Character> getCharacters() {
+        return this.characters;
+    }
     public abstract void start();
 }
