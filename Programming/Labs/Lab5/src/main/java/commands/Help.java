@@ -1,4 +1,37 @@
 package commands;
+import utilities.CollectionManager;
+import java.util.Map;
 
-public class Help {
+public class Help implements Command {
+    private Map<String, Command> commands;
+
+    public Help(Map<String, Command> commands) {
+        this.commands = commands;
+
+    }
+
+
+    @Override
+    public CommandResult execute(String argument, CollectionManager manager) {
+        StringBuilder help = new StringBuilder("Available commands:\n");
+
+        for (Map.Entry<String, Command> entry: this.commands.entrySet()) {
+            help.append(" ").append(entry.getKey())
+                    .append(" - ").append(entry.getValue().getDescription())
+                    .append("\n    Usage: ").append(entry.getValue().getUsage())
+                    .append("\n");
+        }
+        return new CommandResult(help.toString(), true);
+    }
+
+    @Override
+    public String getDescription() {
+        return "Show all commands";
+    }
+
+    @Override
+    public String getUsage() {
+        return "help";
+    }
+
 }

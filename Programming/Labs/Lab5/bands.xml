@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bands>
+  <band key="china">
+    <id>2</id>
+    <name>CHing</name>
+    <coordinates>
+      <x>894.0</x>
+      <y>1233</y>
+    </coordinates>
+    <creationDate>1771624489595</creationDate>
+    <numberOfParticipants>11233</numberOfParticipants>
+    <singlesCount>1</singlesCount>
+    <establishmentDate></establishmentDate>
+    <genre>RAP</genre>
+    <studio>ninja</studio>
+  </band>
+  <band key="test">
+    <id>1</id>
+    <name>Test Band</name>
+    <coordinates>
+      <x>10.5</x>
+      <y>20</y>
+    </coordinates>
+    <creationDate>1771624489599</creationDate>
+    <numberOfParticipants>4</numberOfParticipants>
+    <singlesCount>10</singlesCount>
+    <establishmentDate>2020-01-01</establishmentDate>
+    <genre>BRIT_POP</genre>
+    <studio>Test Studio</studio>
+  </band>
+</bands>

@@ -14,7 +14,7 @@ public class MusicBand implements Comparable<MusicBand> {
     private java.util.Date creationDate;
     private Long numberOfParticipants;
     private Integer singlesCount;
-    private java.time.LocalDate establishmentDate;
+    private LocalDate establishmentDate;
     private MusicGenre genre;
     private Studio studio;
 
@@ -53,6 +53,8 @@ public class MusicBand implements Comparable<MusicBand> {
     private static long generateId() {
         return nextId++;
     }
+
+    public void setId(long id) {this.id = id;}
 
     /**
      * Sets the id for the next band after reading the XML file.
@@ -229,15 +231,15 @@ public class MusicBand implements Comparable<MusicBand> {
     @Override
     public String toString() {
         StringBuilder output = new StringBuilder();
-        output.append("Music Band id: ").append(this.id)
+        output.append("\nMusic Band id: ").append(this.id)
         .append("\n" + "Name: ").append(this.name)
         .append("\n" + "Music Genre: ").append(this.genre)
         .append("\n" + "Studio: ").append(this.studio)
         .append("\n" + "Number of Participants: ").append(this.numberOfParticipants)
         .append("\n" + "Count of Singles: ").append(this.singlesCount)
         .append("\n" + "Coordinates: ").append(this.coordinates)
-        .append("\n" + "Establishment date: ").append(this.establishmentDate)
-        .append("\n" + "Added to Collection On: ").append(this.creationDate);
+        .append("\n" + "Establishment Date: ").append(this.establishmentDate)
+        .append("\n" + "Added to Collection on: ").append(this.creationDate);
 
         return output.toString();
     }
