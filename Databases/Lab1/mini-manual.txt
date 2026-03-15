@@ -1,0 +1,159 @@
+-- ============================================
+
+
+CREATE TYPE gender_type AS ENUM ('male', 'female');
+CREATE TYPE state_type_enum AS ENUM ('hypnotic', 'normal', 'interacting');
+
+
+CREATE TABLE Person (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    gender gender_type NOT NULL,
+    current_location VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Object (
+    id BIGSERIAL PRIMARY KEY,
+    type VARCHAR(50) NOT NULL,
+    length NUMERIC(5,2) NOT NULL,
+    physical_properties VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE State (
+    id BIGSERIAL PRIMARY KEY,
+    state_type state_type_enum NOT NULL,
+    person_id BIGINT NOT NULL REFERENCES Person(id)
+);
+
+CREATE TABLE ActionType (
+    id BIGSERIAL PRIMARY KEY,
+    action_name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE PersonAction (
+    id BIGSERIAL PRIMARY KEY,
+    person_id BIGINT NOT NULL REFERENCES Person(id),
+    action_type_id BIGINT NOT NULL REFERENCES ActionType(id),
+    action_start_time TIMESTAMP NOT NULL
+);
+
+CREATE TABLE ObjectInteraction (
+    id BIGSERIAL PRIMARY KEY,
+    person_id BIGINT NOT NULL REFERENCES Person(id),
+    object_id BIGINT NOT NULL REFERENCES Object(id),
+    result VARCHAR(50) NOT NULL
+);
+
+
+
+-- Persons
+INSERT INTO Person (name, gender, current_location) VALUES
+('Alex', 'male', 'lab_room_1'),
+('Maria', 'female', 'lab_room_2');
+
+-- Objects
+INSERT INTO Object (type, length, physical_properties) VALUES
+('stem', 30.00, 'flexible, green'),
+('stem', 25.50, 'rigid, brown');
+
+-- States
+INSERT INTO State (state_type, person_id) VALUES
+('hypnotic', 1),
+('normal', 2),
+('interacting', 1);
+
+-- ActionTypes
+INSERT INTO ActionType (action_name) VALUES
+('clench fists'),
+('move arms');
+
+-- PersonActions
+INSERT INTO PersonAction (person_id, action_type_id, action_start_time) VALUES
+(1, 1, '2026-03-04 10:15:00'),
+(2, 2, '2026-03-04 11:00:00');
+
+-- ObjectInteractions
+INSERT INTO ObjectInteraction (person_id, object_id, result) VALUES
+(1, 1, 'unsuccessful'),
+(2, 2, 'successful');
+
+
+SELECT * FROM Person;
+SELECT * FROM Object;
+SELECT * FROM State;
+SELECT * FROM ActionType;
+SELECT * FROM PersonAction;
+SELECT * FROM ObjectInteraction;
+
+-- Add a new column
+ALTER TABLE table_name ADD COLUMN column_name data_type [constraints];
+
+-- Drop a column
+ALTER TABLE table_name DROP COLUMN column_name;
+
+-- Rename a column
+ALTER TABLE table_name RENAME COLUMN old_name TO new_name;
+
+-- Set NOT NULL constraint
+ALTER TABLE table_name ALTER COLUMN column_name SET NOT NULL;
+
+-- Drop NOT NULL constraint
+ALTER TABLE table_name ALTER COLUMN column_name DROP NOT NULL;
+
+-- Add foreign key
+ALTER TABLE table_name
+ADD CONSTRAINT fk_name FOREIGN KEY (column_name) REFERENCES other_table(id);
+
+-- Insert single row
+INSERT INTO table_name (col1, col2) VALUES ('value1', 123.45);
+
+-- Insert multiple rows
+INSERT INTO table_name (col1, col2) VALUES
+('value1', 123.45),
+('value2', 456.78);
+
+-- Update a single column
+UPDATE table_name SET col1='new_value' WHERE id=1;
+
+-- Update multiple columns
+UPDATE table_name
+SET col1='new_value', col2=50
+WHERE id=1;
+
+-- Select all columns
+SELECT * FROM table_name;
+
+-- Select specific columns
+SELECT col1, col2 FROM table_name;
+
+-- Filter rows
+SELECT * FROM table_name WHERE col2 > 100;
+
+-- Count rows
+SELECT COUNT(*) FROM table_name;
+
+-- Order rows
+SELECT * FROM table_name ORDER BY col1 ASC;
+
+-- Limit rows
+SELECT * FROM table_name LIMIT 5;
+
+-- Combine filters
+SELECT * FROM table_name WHERE col1='value' AND col2>50;
+
+-- Primary key (already in CREATE TABLE)
+id BIGSERIAL PRIMARY KEY
+
+-- Foreign key (already in CREATE TABLE or ALTER TABLE)
+FOREIGN KEY (other_id) REFERENCES OtherTable(id)
+
+-- NOT NULL
+column_name data_type NOT NULL
+
+-- UNIQUE
+ALTER TABLE table_name ADD CONSTRAINT unique_col UNIQUE(column_name);
+
+-- CHECK
+ALTER TABLE table_name ADD CONSTRAINT check_col CHECK(column_name > 0);
+
+te
