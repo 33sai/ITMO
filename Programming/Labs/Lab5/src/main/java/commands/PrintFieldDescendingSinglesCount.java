@@ -1,18 +1,22 @@
 package commands;
 
+import argumentcommands.CommandWithoutArgs;
+import commandsabstraction.CollectionCommand;
+import commandsabstraction.CommandResult;
 import utilities.CollectionManager;
-import utilities.CommandRequest;
+import commandsabstraction.CommandRequest;
 
 import java.util.List;
 
-public class PrintFieldDescendingSinglesCount extends CollectionCommand {
+public class PrintFieldDescendingSinglesCount extends CommandWithoutArgs {
 
     public PrintFieldDescendingSinglesCount(CollectionManager manager) {
         super(manager);
     }
 
+
     @Override
-    public CommandResult execute(CommandRequest request) {
+    protected CommandResult executeInternal() {
         List<Integer> singles = manager.getAllSinglesCountDescending();
         if (singles.isEmpty()) {
             return new CommandResult("No singles count values found.", true);
@@ -23,6 +27,7 @@ public class PrintFieldDescendingSinglesCount extends CollectionCommand {
         }
         return new CommandResult(result.toString(), true, singles);
     }
+
 
     @Override
     public String getDescription() {

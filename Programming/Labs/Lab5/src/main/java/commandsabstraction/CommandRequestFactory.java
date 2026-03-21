@@ -1,7 +1,7 @@
-package utilities;
+package commandsabstraction;
 
-import commands.Command;
 import models.MusicBand;
+import utilities.MusicBandValidator;
 
 /**
  * Factory that builds a CommandRequest based on what the command needs.

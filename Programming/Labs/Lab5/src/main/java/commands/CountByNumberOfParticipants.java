@@ -1,9 +1,12 @@
 package commands;
 
+import argumentcommands.CommandWithOtherArgs;
+import commandsabstraction.CollectionCommand;
+import commandsabstraction.CommandResult;
 import utilities.CollectionManager;
-import utilities.CommandRequest;
+import commandsabstraction.CommandRequest;
 
-public class CountByNumberOfParticipants extends CollectionCommand {
+public class CountByNumberOfParticipants extends CommandWithOtherArgs {
 
     public CountByNumberOfParticipants(CollectionManager manager) {
         super(manager);
@@ -14,12 +17,10 @@ public class CountByNumberOfParticipants extends CollectionCommand {
         return true;
     }
 
+
     @Override
-    public CommandResult execute(CommandRequest request) {
+    public CommandResult executeInternal(CommandRequest request) {
         String argument = request.getArgument();
-        if (argument == null || argument.isEmpty()) {
-            return new CommandResult("Usage: count_by_number_of_participants <count>", false);
-        }
         try {
             long count = Long.parseLong(argument);
             int size = manager.getBandsByParticipants(count).size();

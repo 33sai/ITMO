@@ -1,10 +1,13 @@
 package commands;
 
-import utilities.CommandRequest;
+import argumentcommands.CommandWithoutArgs;
+import commandsabstraction.Command;
+import commandsabstraction.CommandResult;
+import commandsabstraction.CommandRequest;
 
 import java.util.Map;
 
-public class Help implements Command {
+public class Help extends CommandWithoutArgs {
     private Map<String, Command> commands;
 
     public Help(Map<String, Command> commands) {
@@ -12,7 +15,7 @@ public class Help implements Command {
     }
 
     @Override
-    public CommandResult execute(CommandRequest request) {
+    protected CommandResult executeInternal() {
         StringBuilder help = new StringBuilder("Available commands:\n");
         for (Map.Entry<String, Command> entry : this.commands.entrySet()) {
             help.append(" ").append(entry.getKey())

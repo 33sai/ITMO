@@ -1,10 +1,13 @@
 package commands;
 
+import argumentcommands.CommandWithKeyAndElement;
+import commandsabstraction.CollectionCommand;
+import commandsabstraction.CommandResult;
 import models.MusicBand;
 import utilities.CollectionManager;
-import utilities.CommandRequest;
+import commandsabstraction.CommandRequest;
 
-public class Insert extends CollectionCommand {
+public class Insert extends CommandWithKeyAndElement {
 
     public Insert(CollectionManager manager) {
         super(manager);
@@ -20,22 +23,11 @@ public class Insert extends CollectionCommand {
         return true;
     }
 
+
     @Override
-    public CommandResult execute(CommandRequest request) {
-        String key = request.getArgument();
-        if (key == null || key.isEmpty()) {
-            return new CommandResult("Usage: insert <key>", false);
-        }
-
-        if (manager.containsKey(key)) {
-            return new CommandResult("Key '" + key + "' already exists. Use update to modify.", false);
-        }
-
+    protected CommandResult executeInternal(CommandRequest request) {
         MusicBand band = request.getBand();
-        if (band == null) {
-            return new CommandResult("No band data provided.", false);
-        }
-
+        String key = request.getArgument();
         manager.add(key, band);
         return new CommandResult("Band added successfully with key '" + key + "'.", true);
     }

@@ -1,10 +1,13 @@
 package commands;
 
+import argumentcommands.CommandWithoutArgs;
+import commandsabstraction.CollectionCommand;
+import commandsabstraction.CommandResult;
 import utilities.CollectionManager;
-import utilities.CommandRequest;
+import commandsabstraction.CommandRequest;
 import utilities.FileManager;
 
-public class Save extends CollectionCommand {
+public class Save extends CommandWithoutArgs {
     private FileManager fileManager;
 
     public Save(FileManager fileManager, CollectionManager manager) {
@@ -13,7 +16,7 @@ public class Save extends CollectionCommand {
     }
 
     @Override
-    public CommandResult execute(CommandRequest request) {
+    protected CommandResult executeInternal() {
         try {
             fileManager.save(manager);
             return new CommandResult("Collection saved successfully.", true);

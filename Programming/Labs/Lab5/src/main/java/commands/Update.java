@@ -1,10 +1,14 @@
 package commands;
 
+import argumentcommands.CommandWIthIdAndElement;
+import argumentcommands.CommandWithKeyAndElement;
+import commandsabstraction.CollectionCommand;
+import commandsabstraction.CommandResult;
 import models.MusicBand;
 import utilities.CollectionManager;
-import utilities.CommandRequest;
+import commandsabstraction.CommandRequest;
 
-public class Update extends CollectionCommand {
+public class Update extends CommandWIthIdAndElement {
 
     public Update(CollectionManager manager) {
         super(manager);
@@ -20,45 +24,27 @@ public class Update extends CollectionCommand {
         return true;
     }
 
+
+
+
+
     @Override
-    public CommandResult execute(CommandRequest request) {
-        String argument = request.getArgument();
-        if (argument == null || argument.isEmpty()) {
-            return new CommandResult("Usage: update <id>", false);
-        }
+    protected CommandResult executeInternal(CommandRequest request) {
+        MusicBand bandToUpdate = request.getBand();
+        Long id = Long.parseLong(request.getArgument());
 
-        long id;
-        try {
-            id = Long.parseLong(argument);
-        } catch (NumberFormatException e) {
-            return new CommandResult("ID must be a number.", false);
-        }
-
-        MusicBand existing = manager.getBandById(id);
-        if (existing == null) {
-            return new CommandResult("No band found with ID " + id, false);
-        }
-
-        String key = null;
+        String key = "";
         for (String k : manager.getKeys()) {
             if (manager.get(k).getId() == id) {
                 key = k;
                 break;
             }
         }
-        if (key == null) {
-            return new CommandResult("Error: band found but key missing.", false);
-        }
-
-        MusicBand bandToUpdate = request.getBand();
-        if (bandToUpdate == null) {
-            return new CommandResult("No band data provided.", false);
-        }
 
         bandToUpdate.setId(id);
         manager.add(key, bandToUpdate);
-
         return new CommandResult("Band with ID " + id + " updated.", true);
+
     }
 
     @Override

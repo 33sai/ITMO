@@ -1,18 +1,21 @@
 package commands;
 
+import argumentcommands.CommandWithoutArgs;
+import commandsabstraction.CommandResult;
 import utilities.CollectionManager;
 import java.util.Map;
 import models.MusicBand;
-import utilities.CommandRequest;
 
-public class Show extends CollectionCommand {
+
+public class Show extends CommandWithoutArgs {
 
     public Show(CollectionManager manager) {
         super(manager);
     }
 
+
     @Override
-    public CommandResult execute(CommandRequest request) {
+    protected CommandResult executeInternal() {
         if (manager.size() == 0) {
             return new CommandResult("The collection is empty", true);
         }

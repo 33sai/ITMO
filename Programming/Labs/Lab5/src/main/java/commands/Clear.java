@@ -1,16 +1,20 @@
 package commands;
 
+import argumentcommands.CommandWithoutArgs;
+import commandsabstraction.CollectionCommand;
+import commandsabstraction.CommandResult;
 import utilities.CollectionManager;
-import utilities.CommandRequest;
+import commandsabstraction.CommandRequest;
 
-public class Clear extends CollectionCommand {
+public class Clear extends CommandWithoutArgs {
 
     public Clear(CollectionManager manager) {
         super(manager);
     }
 
+
     @Override
-    public CommandResult execute(CommandRequest request) {
+    public CommandResult executeInternal() {
         manager.clear();
         return new CommandResult("Successfully cleared collection", true);
     }

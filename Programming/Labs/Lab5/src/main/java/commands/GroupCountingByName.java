@@ -1,18 +1,20 @@
 package commands;
 
+import argumentcommands.CommandWithoutArgs;
+import commandsabstraction.CommandResult;
 import utilities.CollectionManager;
-import utilities.CommandRequest;
+
 
 import java.util.Map;
 
-public class GroupCountingByName extends CollectionCommand {
+public class GroupCountingByName extends CommandWithoutArgs {
 
     public GroupCountingByName(CollectionManager manager) {
         super(manager);
     }
 
     @Override
-    public CommandResult execute(CommandRequest request) {
+    protected CommandResult executeInternal() {
         Map<String, Long> groups = manager.countByName();
         if (groups.isEmpty()) {
             return new CommandResult("Collection is empty.", false);

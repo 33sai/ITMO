@@ -1,16 +1,20 @@
 package commands;
 
+import argumentcommands.CommandWithoutArgs;
+import commandsabstraction.CollectionCommand;
+import commandsabstraction.CommandResult;
 import utilities.CollectionManager;
-import utilities.CommandRequest;
+import commandsabstraction.CommandRequest;
 
-public class Info extends CollectionCommand {
+public class Info extends CommandWithoutArgs {
 
     public Info(CollectionManager manager) {
         super(manager);
     }
 
+
     @Override
-    public CommandResult execute(CommandRequest request) {
+    protected CommandResult executeInternal() {
         String info = "Collection type: " + manager.getCollectionType() + "\n"
                 + "Initialization date: " + manager.getInitializationDate() + "\n"
                 + "Number of elements: " + manager.size();

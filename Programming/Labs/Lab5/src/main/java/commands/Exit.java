@@ -1,11 +1,12 @@
 package commands;
 
-import utilities.CommandRequest;
+import argumentcommands.CommandWithoutArgs;
+import commandsabstraction.CommandResult;
 
-public class Exit implements Command {
+public class Exit extends CommandWithoutArgs {
 
     @Override
-    public CommandResult execute(CommandRequest request) {
+    protected CommandResult executeInternal() {
         return new CommandResult("See you next time", true);
     }
 

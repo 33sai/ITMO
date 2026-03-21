@@ -1,34 +1,31 @@
 package commands;
 
+import argumentcommands.CommandWithOtherArgs;
+import commandsabstraction.Command;
+import commandsabstraction.CommandResult;
 import models.*;
+import utilities.CollectionManager;
 import utilities.CommandManager;
-import utilities.CommandRequest;
-import utilities.CommandRequestFactory;
+import commandsabstraction.CommandRequest;
+import commandsabstraction.CommandRequestFactory;
 
 import java.io.*;
 import java.time.LocalDate;
 import java.util.*;
 
-public class ExecuteScript implements Command {
+public class ExecuteScript extends CommandWithOtherArgs {
     private CommandManager commandManager;
     private Set<String> scriptsRunning = new HashSet<>();
 
-    public ExecuteScript(CommandManager commandManager) {
+    public ExecuteScript(CollectionManager manager, CommandManager commandManager) {
+        super(manager);
         this.commandManager = commandManager;
     }
 
-    @Override
-    public boolean requiresArgument() {
-        return true;
-    }
 
     @Override
-    public CommandResult execute(CommandRequest request) {
+    protected CommandResult executeInternal(CommandRequest request) {
         String filename = request.getArgument();
-        if (filename == null || filename.isEmpty()) {
-            return new CommandResult("Usage: execute_script <file_name>", false);
-        }
-
         if (scriptsRunning.contains(filename)) {
             return new CommandResult("Recursion detected: script '" + filename + "' is already being executed.", false);
         }

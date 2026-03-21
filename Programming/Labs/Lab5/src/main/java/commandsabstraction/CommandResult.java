@@ -1,4 +1,4 @@
-package commands;
+package commandsabstraction;
 
 /**
  * Holds the result after an execution of a command

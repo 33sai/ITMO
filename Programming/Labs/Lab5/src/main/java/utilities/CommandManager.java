@@ -1,6 +1,7 @@
 package utilities;
 
 import commands.*;
+import commandsabstraction.Command;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +29,7 @@ public class CommandManager {
         commands.put("count_by_number_of_participants", new CountByNumberOfParticipants(manager));
         commands.put("print_field_descending_singles_count", new PrintFieldDescendingSinglesCount(manager));
 
-        commands.put("execute_script", new ExecuteScript(this));
+        commands.put("execute_script", new ExecuteScript(manager,this));
     }
 
     public Command getCommand(String name) {

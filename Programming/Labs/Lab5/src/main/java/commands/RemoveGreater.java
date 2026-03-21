@@ -1,13 +1,15 @@
 package commands;
 
+import argumentcommands.CommandWithElement;
+import commandsabstraction.CommandResult;
 import models.MusicBand;
 import utilities.CollectionManager;
-import utilities.CommandRequest;
+import commandsabstraction.CommandRequest;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RemoveGreater extends CollectionCommand {
+public class RemoveGreater extends CommandWithElement {
 
     public RemoveGreater(CollectionManager manager) {
         super(manager);
@@ -19,11 +21,8 @@ public class RemoveGreater extends CollectionCommand {
     }
 
     @Override
-    public CommandResult execute(CommandRequest request) {
+    protected CommandResult executeInternal(CommandRequest request) {
         MusicBand referenceBand = request.getBand();
-        if (referenceBand == null) {
-            return new CommandResult("No reference band data provided.", false);
-        }
 
         List<String> toRemove = new ArrayList<>();
         for (String key : manager.getKeys()) {

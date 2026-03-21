@@ -1,6 +1,4 @@
-package commands;
-
-import utilities.CommandRequest;
+package commandsabstraction;
 
 /**
  * All commands must implement this interface.

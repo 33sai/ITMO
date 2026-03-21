@@ -1,9 +1,10 @@
 package console;
 
-import commands.*;
+import commandsabstraction.Command;
+import commandsabstraction.CommandResult;
 import utilities.CommandManager;
-import utilities.CommandRequest;
-import utilities.CommandRequestFactory;
+import commandsabstraction.CommandRequest;
+import commandsabstraction.CommandRequestFactory;
 import utilities.MusicBandValidator;
 
 import java.util.Scanner;
@@ -55,12 +56,6 @@ public class Console {
             }
 
             try {
-                // Argument validation
-                if (command.requiresArgument() && argument.isEmpty()) {
-                    System.out.println("Usage: " + command.getUsage());
-                    continue;
-                }
-
                 // Factory requirement DONE HERE
                 CommandRequest request = requestFactory.buildRequest(command, argument);
                 CommandResult result = command.execute(request);

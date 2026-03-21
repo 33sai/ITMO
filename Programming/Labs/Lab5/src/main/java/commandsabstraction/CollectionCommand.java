@@ -1,4 +1,4 @@
-package commands;
+package commandsabstraction;
 
 import utilities.CollectionManager;
 
@@ -10,5 +10,8 @@ public abstract class CollectionCommand implements Command {
 
     public CollectionCommand(CollectionManager manager) {
         this.manager = manager;
+    }
+
+    public CollectionCommand() {
     }
 }
