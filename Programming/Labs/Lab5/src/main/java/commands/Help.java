@@ -1,5 +1,7 @@
 package commands;
-import utilities.CollectionManager;
+
+import utilities.CommandRequest;
+
 import java.util.Map;
 
 public class Help implements Command {
@@ -7,15 +9,12 @@ public class Help implements Command {
 
     public Help(Map<String, Command> commands) {
         this.commands = commands;
-
     }
 
-
     @Override
-    public CommandResult execute(String argument, CollectionManager manager) {
+    public CommandResult execute(CommandRequest request) {
         StringBuilder help = new StringBuilder("Available commands:\n");
-
-        for (Map.Entry<String, Command> entry: this.commands.entrySet()) {
+        for (Map.Entry<String, Command> entry : this.commands.entrySet()) {
             help.append(" ").append(entry.getKey())
                     .append(" - ").append(entry.getValue().getDescription())
                     .append("\n    Usage: ").append(entry.getValue().getUsage())
@@ -33,5 +32,4 @@ public class Help implements Command {
     public String getUsage() {
         return "help";
     }
-
 }

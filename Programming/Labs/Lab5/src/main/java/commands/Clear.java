@@ -1,13 +1,16 @@
 package commands;
 
 import utilities.CollectionManager;
+import utilities.CommandRequest;
 
-import java.util.Collection;
+public class Clear extends CollectionCommand {
 
-public class Clear implements Command {
+    public Clear(CollectionManager manager) {
+        super(manager);
+    }
 
     @Override
-    public CommandResult execute(String arg, CollectionManager manager) {
+    public CommandResult execute(CommandRequest request) {
         manager.clear();
         return new CommandResult("Successfully cleared collection", true);
     }

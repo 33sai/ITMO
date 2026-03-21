@@ -1,15 +1,25 @@
 package commands;
 
 import utilities.CollectionManager;
+import utilities.CommandRequest;
 
-public class RemoveKey implements Command {
+public class RemoveKey extends CollectionCommand {
+
+    public RemoveKey(CollectionManager manager) {
+        super(manager);
+    }
 
     @Override
-    public CommandResult execute(String argument, CollectionManager manager) {
-        if (argument.isEmpty()) {
+    public boolean requiresArgument() {
+        return true;
+    }
+
+    @Override
+    public CommandResult execute(CommandRequest request) {
+        String key = request.getArgument();
+        if (key == null || key.isEmpty()) {
             return new CommandResult("Usage: remove_key <key>", false);
         }
-        String key = argument;
 
         if (!manager.containsKey(key)) {
             return new CommandResult("No band found with key '" + key + "'.", false);

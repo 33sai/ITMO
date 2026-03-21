@@ -2,30 +2,41 @@ package commands;
 
 import models.MusicBand;
 import utilities.CollectionManager;
-import utilities.MusicBandValidator;
+import utilities.CommandRequest;
 
-public class Insert implements Command {
-    private MusicBandValidator validator;
+public class Insert extends CollectionCommand {
 
-    public Insert(MusicBandValidator validator) {
-        this.validator = validator;
+    public Insert(CollectionManager manager) {
+        super(manager);
     }
 
     @Override
-    public CommandResult execute(String argument, CollectionManager manager) {
-        if (argument.isEmpty()) {
+    public boolean requiresBand() {
+        return true;
+    }
+
+    @Override
+    public boolean requiresArgument() {
+        return true;
+    }
+
+    @Override
+    public CommandResult execute(CommandRequest request) {
+        String key = request.getArgument();
+        if (key == null || key.isEmpty()) {
             return new CommandResult("Usage: insert <key>", false);
         }
-        String key = argument;
 
         if (manager.containsKey(key)) {
             return new CommandResult("Key '" + key + "' already exists. Use update to modify.", false);
         }
 
-        // Ask for all fields using validator
-        MusicBand band = validator.askMusicBand();
-        manager.add(key, band);
+        MusicBand band = request.getBand();
+        if (band == null) {
+            return new CommandResult("No band data provided.", false);
+        }
 
+        manager.add(key, band);
         return new CommandResult("Band added successfully with key '" + key + "'.", true);
     }
 

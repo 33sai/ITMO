@@ -1,15 +1,21 @@
 package commands;
 
 import utilities.CollectionManager;
+import utilities.CommandRequest;
+
 import java.util.Map;
 
-public class GroupCountingByName implements Command {
+public class GroupCountingByName extends CollectionCommand {
+
+    public GroupCountingByName(CollectionManager manager) {
+        super(manager);
+    }
 
     @Override
-    public CommandResult execute(String argument, CollectionManager manager) {
+    public CommandResult execute(CommandRequest request) {
         Map<String, Long> groups = manager.countByName();
         if (groups.isEmpty()) {
-            return new CommandResult("Collection is empty.", true);
+            return new CommandResult("Collection is empty.", false);
         }
         StringBuilder result = new StringBuilder("Groups by name:\n");
         groups.forEach((name, count) -> result.append(name).append(": ").append(count).append("\n"));

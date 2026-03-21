@@ -176,6 +176,9 @@ public class MusicBandValidator {
     public Scanner getScanner() {
         return this.scanner;
     }
+    public void setScanner(Scanner scanner) {
+        this.scanner = scanner;
+    }
 
 
 }

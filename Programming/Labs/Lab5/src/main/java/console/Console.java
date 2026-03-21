@@ -1,47 +1,41 @@
 package console;
 
-import commands.Command;
-import commands.CommandResult;
-import utilities.CollectionManager;
+import commands.*;
 import utilities.CommandManager;
+import utilities.CommandRequest;
+import utilities.CommandRequestFactory;
+import utilities.MusicBandValidator;
 
 import java.util.Scanner;
 
 public class Console {
-    private CollectionManager collectionManager;
     private CommandManager commandManager;
+    private CommandRequestFactory requestFactory;
     private Scanner scanner;
     private boolean running = true;
 
-    public Console(CollectionManager collectionManager,
-                   CommandManager commandManager,
+    public Console(CommandManager commandManager,
+                   MusicBandValidator validator,
                    Scanner scanner) {
-        this.collectionManager = collectionManager;
         this.commandManager = commandManager;
+        this.requestFactory = new CommandRequestFactory(validator);
         this.scanner = scanner;
     }
 
     public void run() {
         System.out.println("""
                 \s
-                ⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣶⣶⣾⣿⣿⣿⣿⣷⣶⣶⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⣠⢔⣫⢷⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⣄⠀⠀⠀⠀⠀
-                ⠀⠀⠀⣠⢊⡴⡫⢚⡽⣟⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⠀⠀⠀
-                ⠀⠀⡴⣱⢫⢎⡔⡩⣚⠵⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⠀⠀
-                ⠀⣼⣽⣳⣣⢯⣞⡜⡱⣫⢷⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠀
-                ⢸⣿⣿⣿⣿⣿⣿⣾⡽⣱⣫⠞⠉⠀⠀⠀⠀⠉⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇
-                ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⠃⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷
-                ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠘⠃⠀⠀⠀⢀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-                ⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣆⠀⠀⠀⠀⠀⠀⠀⢀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿
-                ⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣤⣀⣀⣀⣠⣴⢟⡵⣳⢯⢿⣿⡟⣿⣿⣿⣿⡇
-                ⠀⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣞⡵⣫⢏⢞⡽⡽⣻⢯⡟⠀
-                ⠀⠀⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣚⢕⡡⢊⠜⡵⣣⠟⠀⠀
-                ⠀⠀⠀⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⢷⣫⢖⡥⢊⡴⠋⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠙⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣞⣭⠞⠋⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠿⠿⢿⣿⣿⣿⣿⡿⠿⠟⠛⠉⠀⠀
+                        __________
+                       1          1
+                       1          1
+                       1          1
+                  ____ 1     ____ 1
+                 /    \\1    /    \\1
+                1      1   1      1
+                 \\____/     \\____/
+                
                 Welcome to Music Band Manager⠀⠀⠀⠀⠀⠀
                 """);
-
 
         while (running) {
             System.out.print("> ");
@@ -61,7 +55,15 @@ public class Console {
             }
 
             try {
-                CommandResult result = command.execute(argument, this.collectionManager);
+                // Argument validation
+                if (command.requiresArgument() && argument.isEmpty()) {
+                    System.out.println("Usage: " + command.getUsage());
+                    continue;
+                }
+
+                // Factory requirement DONE HERE
+                CommandRequest request = requestFactory.buildRequest(command, argument);
+                CommandResult result = command.execute(request);
 
                 if (result.isSuccess()) {
                     System.out.println(result.getMessage());
@@ -70,9 +72,7 @@ public class Console {
                     }
                 } else {
                     System.out.println("Error: " + result.getMessage());
-                }
-
-                if (commandName.equals("exit")) {
+                }if (commandName.equals("exit")) {
                     running = false;
                 }
 
@@ -80,6 +80,5 @@ public class Console {
                 System.out.println("Error executing command: " + e.getMessage());
             }
         }
-
     }
 }

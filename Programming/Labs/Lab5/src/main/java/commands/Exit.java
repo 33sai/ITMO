@@ -1,11 +1,11 @@
 package commands;
 
-import utilities.CollectionManager;
+import utilities.CommandRequest;
 
 public class Exit implements Command {
 
     @Override
-    public CommandResult execute(String argument, CollectionManager manager) {
+    public CommandResult execute(CommandRequest request) {
         return new CommandResult("See you next time", true);
     }
 
@@ -18,5 +18,4 @@ public class Exit implements Command {
     public String getUsage() {
         return "exit";
     }
-
 }

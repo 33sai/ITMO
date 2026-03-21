@@ -1,32 +1,41 @@
 package commands;
 
 import utilities.CollectionManager;
+import utilities.CommandRequest;
 
-public class CountByNumberOfParticipants implements Command {
+public class CountByNumberOfParticipants extends CollectionCommand {
+
+    public CountByNumberOfParticipants(CollectionManager manager) {
+        super(manager);
+    }
 
     @Override
-    public CommandResult execute(String argument, CollectionManager manager) {
-        if (argument.isEmpty()) {
-            return new CommandResult("Usage: count_by_number_of_participants <number>", false);
-        }
-        long number;
-        try {
-            number = Long.parseLong(argument);
-        } catch (NumberFormatException e) {
-            return new CommandResult("Invalid number. Please enter a valid long.", false);
-        }
+    public boolean requiresArgument() {
+        return true;
+    }
 
-        long count = manager.getBandsByParticipants(number).size();
-        return new CommandResult("Number of bands with " + number + " participants: " + count, true, count);
+    @Override
+    public CommandResult execute(CommandRequest request) {
+        String argument = request.getArgument();
+        if (argument == null || argument.isEmpty()) {
+            return new CommandResult("Usage: count_by_number_of_participants <count>", false);
+        }
+        try {
+            long count = Long.parseLong(argument);
+            int size = manager.getBandsByParticipants(count).size();
+            return new CommandResult("Bands with " + count + " participants: " + size, true);
+        } catch (NumberFormatException e) {
+            return new CommandResult("Argument must be a number.", false);
+        }
     }
 
     @Override
     public String getDescription() {
-        return "Count bands with the given number of participants";
+        return "Count elements with the given number of participants";
     }
 
     @Override
     public String getUsage() {
-        return "count_by_number_of_participants <number>";
+        return "count_by_number_of_participants <count>";
     }
 }

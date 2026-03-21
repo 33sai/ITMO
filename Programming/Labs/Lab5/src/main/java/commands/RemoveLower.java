@@ -2,26 +2,33 @@ package commands;
 
 import models.MusicBand;
 import utilities.CollectionManager;
-import utilities.MusicBandValidator;
+import utilities.CommandRequest;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class RemoveLower implements Command {
-    private MusicBandValidator validator;
+public class RemoveLower extends CollectionCommand {
 
-    public RemoveLower(MusicBandValidator validator) {
-        this.validator = validator;
+    public RemoveLower(CollectionManager manager) {
+        super(manager);
     }
 
     @Override
-    public CommandResult execute(String argument, CollectionManager manager) {
-        System.out.println("Enter the band to compare with (bands lower than this will be removed):");
-        MusicBand reference = validator.askMusicBand();
+    public boolean requiresBand() {
+        return true;
+    }
+
+    @Override
+    public CommandResult execute(CommandRequest request) {
+        MusicBand referenceBand = request.getBand();
+        if (referenceBand == null) {
+            return new CommandResult("No reference band data provided.", false);
+        }
 
         List<String> toRemove = new ArrayList<>();
         for (String key : manager.getKeys()) {
             MusicBand band = manager.get(key);
-            if (band.compareTo(reference) < 0) {
+            if (band.compareTo(referenceBand) < 0) {
                 toRemove.add(key);
             }
         }
@@ -40,6 +47,6 @@ public class RemoveLower implements Command {
 
     @Override
     public String getUsage() {
-        return "remove_lower (then enter band data)";
+        return "remove_lower";
     }
 }

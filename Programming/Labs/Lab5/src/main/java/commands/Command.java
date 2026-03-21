@@ -1,19 +1,17 @@
 package commands;
 
-import utilities.CollectionManager;
+import utilities.CommandRequest;
 
 /**
  * All commands must implement this interface.
  */
 public interface Command {
     /**
-     * This method is used to execute a command.
-     * @param argument argument for the command (can be empty).
-     * @param manager collection manager to operate on.
-     * @return  the result after executing the command.
+     * Execute a command.
+     * @param request the request containing argument and optional data.
+     * @return the result after executing the command.
      */
-    CommandResult execute(String argument, CollectionManager manager);
-
+    CommandResult execute(CommandRequest request);
 
     /**
      * @return a short description of a command.
@@ -21,7 +19,21 @@ public interface Command {
     String getDescription();
 
     /**
-     * @return  an example of the usage.
+     * @return an example of the usage.
      */
     String getUsage();
+
+    /**
+     * @return true if this command needs a MusicBand object in the request.
+     */
+    default boolean requiresBand() {
+        return false;
+    }
+
+    /**
+     * @return true if this command requires an argument.
+     */
+    default boolean requiresArgument() {
+        return false;
+    }
 }

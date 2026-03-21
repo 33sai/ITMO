@@ -1,24 +1,27 @@
 package commands;
 
-import models.MusicBand;
 import utilities.CollectionManager;
+import java.util.Map;
+import models.MusicBand;
+import utilities.CommandRequest;
 
-import java.util.Collection;
+public class Show extends CollectionCommand {
 
-
-public class Show implements Command {
+    public Show(CollectionManager manager) {
+        super(manager);
+    }
 
     @Override
-    public CommandResult execute(String argument, CollectionManager manager) {
-        Collection<MusicBand> bands = manager.getAll();
-        if (bands.isEmpty()) {
+    public CommandResult execute(CommandRequest request) {
+        if (manager.size() == 0) {
             return new CommandResult("The collection is empty", true);
         }
 
         StringBuilder output = new StringBuilder();
-        for (MusicBand band: bands) {
-            output.append(band).append("\n");
-            output.append("=".repeat(67));
+        for (Map.Entry<String, MusicBand> entry : manager.getCollection().entrySet()) {
+            output.append("Key: ").append(entry.getKey()).append("\n");
+            output.append(entry.getValue()).append("\n");
+            output.append("=".repeat(67)).append("\n");
         }
 
         return new CommandResult(output.toString(), true);
@@ -26,7 +29,7 @@ public class Show implements Command {
 
     @Override
     public String getDescription() {
-        return "Show all elements in collection";
+        return "Show all elements in collection with their keys";
     }
 
     @Override

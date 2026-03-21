@@ -1,12 +1,18 @@
 package commands;
 
 import utilities.CollectionManager;
+import utilities.CommandRequest;
+
 import java.util.List;
 
-public class PrintFieldDescendingSinglesCount implements Command {
+public class PrintFieldDescendingSinglesCount extends CollectionCommand {
+
+    public PrintFieldDescendingSinglesCount(CollectionManager manager) {
+        super(manager);
+    }
 
     @Override
-    public CommandResult execute(String argument, CollectionManager manager) {
+    public CommandResult execute(CommandRequest request) {
         List<Integer> singles = manager.getAllSinglesCountDescending();
         if (singles.isEmpty()) {
             return new CommandResult("No singles count values found.", true);
