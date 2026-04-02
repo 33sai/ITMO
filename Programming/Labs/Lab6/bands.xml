@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bands>
+  <band key="test1">
+    <id>8</id>
+    <name>Test Band Alpha</name>
+    <coordinates>
+      <x>10.5</x>
+      <y>20</y>
+    </coordinates>
+    <creationDate>1774099523778</creationDate>
+    <numberOfParticipants>4</numberOfParticipants>
+    <singlesCount>27</singlesCount>
+    <establishmentDate>2020-01-01</establishmentDate>
+    <genre>BRIT_POP</genre>
+    <studio>Alpha Studio</studio>
+  </band>
+  <band key="new">
+    <id>4</id>
+    <name>awdd</name>
+    <coordinates>
+      <x>2.0</x>
+      <y>3</y>
+    </coordinates>
+    <creationDate>1774099482856</creationDate>
+    <numberOfParticipants>1</numberOfParticipants>
+    <singlesCount>1</singlesCount>
+    <establishmentDate></establishmentDate>
+    <genre></genre>
+    <studio></studio>
+  </band>
+  <band key="china">
+    <id>2</id>
+    <name>CHing</name>
+    <coordinates>
+      <x>894.0</x>
+      <y>1233</y>
+    </coordinates>
+    <creationDate>1774099482866</creationDate>
+    <numberOfParticipants>11233</numberOfParticipants>
+    <singlesCount>1</singlesCount>
+    <establishmentDate></establishmentDate>
+    <genre>RAP</genre>
+    <studio>ninja</studio>
+  </band>
+  <band key="123">
+    <id>5</id>
+    <name>babah</name>
+    <coordinates>
+      <x>213.0</x>
+      <y>14</y>
+    </coordinates>
+    <creationDate>1774099482866</creationDate>
+    <numberOfParticipants>412</numberOfParticipants>
+    <singlesCount>213</singlesCount>
+    <establishmentDate></establishmentDate>
+    <genre></genre>
+    <studio></studio>
+  </band>
+  <band key="test">
+    <id>1</id>
+    <name>Test Band</name>
+    <coordinates>
+      <x>10.5</x>
+      <y>20</y>
+    </coordinates>
+    <creationDate>1774099482866</creationDate>
+    <numberOfParticipants>4</numberOfParticipants>
+    <singlesCount>10</singlesCount>
+    <establishmentDate>2020-01-01</establishmentDate>
+    <genre>BRIT_POP</genre>
+    <studio>Test Studio</studio>
+  </band>
+</bands>
