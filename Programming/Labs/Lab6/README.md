@@ -27,4 +27,8 @@ java -jar [JarName].jar server [port]
 # In a separate terminal — start the client
 java -jar [JarName] client [host] [port]
 ```
+ ## Roadmap
  
+- [ ] PostgreSQL integration for persistent storage
+- [ ] GUI client
+- [ ] Multi-client support
