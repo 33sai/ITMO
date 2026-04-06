@@ -7,9 +7,6 @@ import models.MusicBand;
 import utilities.CollectionManager;
 import commandsabstraction.CommandRequest;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class RemoveLower extends CommandWithElement {
 
     public RemoveLower(CollectionManager manager) {
@@ -25,19 +22,8 @@ public class RemoveLower extends CommandWithElement {
     @Override
     protected CommandResult executeInternal(CommandRequest request) {
         MusicBand referenceBand = request.getBand();
-        List<String> toRemove = new ArrayList<>();
-        for (String key : manager.getKeys()) {
-            MusicBand band = manager.get(key);
-            if (band.compareTo(referenceBand) < 0) {
-                toRemove.add(key);
-            }
-        }
-
-        for (String key : toRemove) {
-            manager.remove(key);
-        }
-
-        return new CommandResult("Removed " + toRemove.size() + " bands lower than the given band.", true);
+        int removedCount = manager.removeBandsLowerThan(referenceBand);
+        return new CommandResult("Removed " + removedCount + " bands lower than the given band.", true);
     }
 
     @Override

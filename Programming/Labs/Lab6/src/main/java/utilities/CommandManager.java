@@ -1,3 +1,5 @@
+// LEGACY CLASS
+
 package utilities;
 
 import commands.*;

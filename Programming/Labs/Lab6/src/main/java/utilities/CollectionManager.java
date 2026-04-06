@@ -3,6 +3,7 @@ package utilities;
 import models.MusicBand;
 
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -103,6 +104,12 @@ public class CollectionManager {
         return this.collection;
     }
 
+    public List<Map.Entry<String, MusicBand>> getEntriesSortedByBandName() {
+        return this.collection.entrySet().stream()
+                .sorted(Comparator.comparing(entry -> entry.getValue().getName(), String.CASE_INSENSITIVE_ORDER))
+                .collect(Collectors.toList());
+    }
+
     /**
      * This method is used to check if this collection contains a specific key.
      * @param key  they key to check.
@@ -110,6 +117,51 @@ public class CollectionManager {
      */
     public boolean containsKey(String key) {
         return this.collection.containsKey(key);
+    }
+
+    public Optional<String> findKeyByBandId(long id) {
+        return this.collection.entrySet().stream()
+                .filter(entry -> entry.getValue().getId() == id)
+                .map(Map.Entry::getKey)
+                .findFirst();
+    }
+
+    public int removeIf(Predicate<Map.Entry<String, MusicBand>> predicate) {
+        List<String> keysToRemove = this.collection.entrySet().stream()
+                .filter(predicate)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+
+        keysToRemove.forEach(this.collection::remove);
+        return keysToRemove.size();
+    }
+
+    public int removeBandsGreaterThan(MusicBand referenceBand) {
+        return removeIf(entry -> entry.getValue().compareTo(referenceBand) > 0);
+    }
+
+    public int removeBandsLowerThan(MusicBand referenceBand) {
+        return removeIf(entry -> entry.getValue().compareTo(referenceBand) < 0);
+    }
+
+    public int removeKeysGreaterThan(String key) {
+        return removeIf(entry -> entry.getKey().compareTo(key) > 0);
+    }
+
+    public boolean replaceBandById(long id, MusicBand replacement) {
+        Optional<Map.Entry<String, MusicBand>> match = this.collection.entrySet().stream()
+                .filter(entry -> entry.getValue().getId() == id)
+                .findFirst();
+
+        if (match.isEmpty()) {
+            return false;
+        }
+
+        MusicBand existing = match.get().getValue();
+        replacement.setId(existing.getId());
+        replacement.setCreationDate(existing.getCreationDate());
+        this.collection.put(match.get().getKey(), replacement);
+        return true;
     }
 
 
@@ -174,11 +226,9 @@ public class CollectionManager {
         if (this.collection.isEmpty()) {
             return "The collection is empty.";
         }
-        StringBuilder output = new StringBuilder();
-        for (String key: this.collection.keySet()) {
-            output.append(this.collection.get(key)).append("\n").append("=".repeat(100)).append("\n");
-        }
-        return output.toString();
+        return getEntriesSortedByBandName().stream()
+                .map(entry -> "Key: " + entry.getKey() + "\n" + entry.getValue() + "\n" + "=".repeat(100))
+                .collect(Collectors.joining("\n"));
     }
 
 

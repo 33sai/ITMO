@@ -1,37 +1,32 @@
-import console.Console;
-import utilities.CollectionManager;
-import utilities.CommandManager;
-import utilities.FileManager;
-import utilities.MusicBandValidator;
-
-import java.io.IOException;
-import java.util.Scanner;
+import client.ClientMain;
+import server.ServerMain;
 
 public class Main {
     public static void main(String[] args) {
-        String filename = System.getenv("MUSIC_BAND_DATA");
-        if (filename == null) {
-            System.err.println("Error: Set MUSIC_BAND_DATA as environmental variable");
-            System.exit(1);
+        if (args.length == 0) {
+            System.out.println("Usage:");
+            System.out.println("  java -jar Lab5-1.0-SNAPSHOT.jar server [port]");
+            System.out.println("  java -jar Lab5-1.0-SNAPSHOT.jar client [host] [port]");
+            return;
         }
 
-        CollectionManager collectionManager = new CollectionManager();
-        FileManager fileManager = new FileManager(filename);
-
-        try {
-            fileManager.load(collectionManager);
-            System.out.println("Loaded " + collectionManager.size() + " bands from file.");
-        } catch (IOException e) {
-            System.out.println("Could not load from file. Starting with empty collection.");
-            System.out.println("Reason: " + e.getMessage());
+        String mode = args[0].trim().toLowerCase();
+        switch (mode) {
+            case "server" -> {
+                String[] serverArgs = new String[Math.max(0, args.length - 1)];
+                if (args.length > 1) {
+                    System.arraycopy(args, 1, serverArgs, 0, args.length - 1);
+                }
+                ServerMain.main(serverArgs);
+            }
+            case "client" -> {
+                String[] clientArgs = new String[Math.max(0, args.length - 1)];
+                if (args.length > 1) {
+                    System.arraycopy(args, 1, clientArgs, 0, args.length - 1);
+                }
+                ClientMain.main(clientArgs);
+            }
+            default -> System.out.println("Unknown mode: " + mode + ". Use 'server' or 'client'.");
         }
-
-        Scanner scanner = new Scanner(System.in);
-        MusicBandValidator validator = new MusicBandValidator(scanner);
-        CommandManager commandManager = new CommandManager(collectionManager, filename);
-        Console console = new Console(commandManager, validator, scanner);
-
-        console.run();
-        scanner.close();
     }
 }

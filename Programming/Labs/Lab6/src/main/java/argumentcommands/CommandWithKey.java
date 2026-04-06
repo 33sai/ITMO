@@ -14,7 +14,7 @@ public abstract class CommandWithKey extends CollectionCommand {
 
     @Override
     public CommandResult execute(CommandRequest request) {
-        if (request.getArgument().isEmpty() || request.getArgument() == null) {
+        if (request.getArgument() == null || request.getArgument().isEmpty()) {
             return new CommandResult("Usage: " + getUsage(), false);
         }
 

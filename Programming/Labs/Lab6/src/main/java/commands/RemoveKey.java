@@ -15,6 +15,9 @@ public class RemoveKey extends CommandWithKey {
     @Override
     protected CommandResult executeInternal(CommandRequest request) {
         String key = request.getArgument();
+        if (!manager.containsKey(key)) {
+            return new CommandResult("No element found with key '" + key + "'.", false);
+        }
         manager.remove(key);
         return new CommandResult("Band with key '" + key + "' removed.", true);
     }

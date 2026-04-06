@@ -1,11 +1,14 @@
 package models;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * This class represents a studio of a music band.
  */
-public class Studio {
+public class Studio implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private String name;
 
     /**

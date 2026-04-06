@@ -1,12 +1,15 @@
 package utilities;
 import models.*;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class FileManager {
-    private String fileName;
+    private final String fileName;
 
 
     public FileManager(String fileName) {
@@ -20,7 +23,7 @@ public class FileManager {
         }
 
         StringBuilder content = new StringBuilder();
-        try (InputStreamReader reader = new InputStreamReader(new FileInputStream(file))) {
+        try (InputStreamReader reader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)) {
             int ch;
             while ((ch = reader.read()) != -1) {
                 content.append((char) ch);
@@ -38,13 +41,15 @@ public class FileManager {
         xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
         xml.append("<bands>\n");
 
-        for (Map.Entry<String, MusicBand> entry : collection.entrySet()) {
+        for (Map.Entry<String, MusicBand> entry : collection.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue((a, b) -> String.CASE_INSENSITIVE_ORDER.compare(a.getName(), b.getName())))
+                .collect(Collectors.toList())) {
             String key = entry.getKey();
             MusicBand band = entry.getValue();
 
-            xml.append("  <band key=\"").append(key).append("\">\n");
+            xml.append("  <band key=\"").append(escapeXml(key)).append("\">\n");
             xml.append("    <id>").append(band.getId()).append("</id>\n");
-            xml.append("    <name>").append(band.getName()).append("</name>\n");
+            xml.append("    <name>").append(escapeXml(band.getName())).append("</name>\n");
 
             xml.append("    <coordinates>\n");
             xml.append("      <x>").append(band.getCoordinates().getX()).append("</x>\n");
@@ -74,7 +79,7 @@ public class FileManager {
             }
 
             if (band.getStudio() != null && band.getStudio().getName() != null) {
-                xml.append("    <studio>").append(band.getStudio().getName()).append("</studio>\n");
+                xml.append("    <studio>").append(escapeXml(band.getStudio().getName())).append("</studio>\n");
             } else {
                 xml.append("    <studio></studio>\n");
             }
@@ -85,7 +90,7 @@ public class FileManager {
         xml.append("</bands>");
 
         try (BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(fileName))) {
-            bos.write(xml.toString().getBytes());
+            bos.write(xml.toString().getBytes(StandardCharsets.UTF_8));
             bos.flush();
         }
     }
@@ -99,11 +104,11 @@ public class FileManager {
 
             try {
 
-                String key = extractAttribute(chunk, "key");
+                String key = unescapeXml(extractAttribute(chunk, "key"));
 
 
                 long id = Long.parseLong(extractTag(chunk, "id"));
-                String name = extractTag(chunk, "name");
+                String name = unescapeXml(extractTag(chunk, "name"));
 
 
                 String coordsXml = extractTag(chunk, "coordinates");
@@ -111,6 +116,7 @@ public class FileManager {
                 int y = Integer.parseInt(extractTag(coordsXml, "y"));
 
 
+                long creationDateMillis = Long.parseLong(extractTag(chunk, "creationDate"));
                 Long participants = Long.parseLong(extractTag(chunk, "numberOfParticipants"));
 
                 // Handle nullable fields
@@ -123,7 +129,7 @@ public class FileManager {
                 String genreStr = extractTag(chunk, "genre");
                 MusicGenre genre = genreStr.isEmpty() ? null : MusicGenre.valueOf(genreStr);
 
-                String studioStr = extractTag(chunk, "studio");
+                String studioStr = unescapeXml(extractTag(chunk, "studio"));
                 Studio studio = studioStr.isEmpty() ? null : new Studio(studioStr);
 
                 // Create objects and add to collection
@@ -131,6 +137,7 @@ public class FileManager {
                 MusicBand band = new MusicBand(name, coords, participants, singles,
                         estDate, genre, studio);
                 band.setId(id); // Override auto-generated ID
+                band.setCreationDate(new Date(creationDateMillis));
                 manager.add(key, band);
 
                 if (id > maxId) {
@@ -172,5 +179,29 @@ public class FileManager {
 
         return xml.substring(start, end);
 
+    }
+
+    private String escapeXml(String value) {
+        if (value == null) {
+            return "";
+        }
+        return value
+                .replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;")
+                .replace("\"", "&quot;")
+                .replace("'", "&apos;");
+    }
+
+    private String unescapeXml(String value) {
+        if (value == null || value.isEmpty()) {
+            return "";
+        }
+        return value
+                .replace("&apos;", "'")
+                .replace("&quot;", "\"")
+                .replace("&gt;", ">")
+                .replace("&lt;", "<")
+                .replace("&amp;", "&");
     }
 }

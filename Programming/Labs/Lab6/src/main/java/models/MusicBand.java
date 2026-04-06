@@ -1,5 +1,6 @@
 package models;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
@@ -7,7 +8,9 @@ import java.util.Objects;
 /**
  * This class represents the complete Music Band, it is the primary model class.
  */
-public class MusicBand implements Comparable<MusicBand> {
+public class MusicBand implements Comparable<MusicBand>, Serializable {
+    private static final long serialVersionUID = 1L;
+
     private long id;
     private String name;
     private Coordinates coordinates;
@@ -92,6 +95,13 @@ public class MusicBand implements Comparable<MusicBand> {
      */
     private void setCreationDate() {
         this.creationDate = new Date();
+    }
+
+    public void setCreationDate(Date creationDate) {
+        if (creationDate == null) {
+            throw new IllegalArgumentException("Creation date cannot be null");
+        }
+        this.creationDate = creationDate;
     }
 
     /**
@@ -222,6 +232,29 @@ public class MusicBand implements Comparable<MusicBand> {
      */
     public static long getNextId() {
         return nextId;
+    }
+
+    /**
+     * Creates a fresh server-managed instance to ensure auto-generated fields
+     * (id and creationDate) are assigned on the server side.
+     */
+    public static MusicBand createServerManagedCopy(MusicBand source) {
+        if (source == null) {
+            throw new IllegalArgumentException("Source band cannot be null");
+        }
+
+        Studio studioCopy = source.getStudio() == null ? null : new Studio(source.getStudio().getName());
+        Coordinates coordinatesCopy = new Coordinates(source.getCoordinates().getX(), source.getCoordinates().getY());
+
+        return new MusicBand(
+                source.getName(),
+                coordinatesCopy,
+                source.getNumberOfParticipants(),
+                source.getSinglesCount(),
+                source.getEstablishmentDate(),
+                source.getGenre(),
+                studioCopy
+        );
     }
 
     /**

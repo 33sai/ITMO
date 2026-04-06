@@ -1,9 +1,13 @@
 package commandsabstraction;
 
+import java.io.Serializable;
+
 /**
  * Holds the result after an execution of a command
  */
-public class CommandResult {
+public class CommandResult implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private final String message;
     private final boolean success;
     private final Object data;

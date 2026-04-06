@@ -26,8 +26,12 @@ public class Insert extends CommandWithKeyAndElement {
 
     @Override
     protected CommandResult executeInternal(CommandRequest request) {
-        MusicBand band = request.getBand();
         String key = request.getArgument();
+        if (manager.containsKey(key)) {
+            return new CommandResult("Key '" + key + "' already exists.", false);
+        }
+
+        MusicBand band = MusicBand.createServerManagedCopy(request.getBand());
         manager.add(key, band);
         return new CommandResult("Band added successfully with key '" + key + "'.", true);
     }

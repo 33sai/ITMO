@@ -2,20 +2,24 @@ package commandsabstraction;
 
 import models.MusicBand;
 
+import java.io.Serializable;
+
 /**
  * This class contains the necessary data for all commands to work
  */
-public class CommandRequest {
-    private String argument;
-    private MusicBand band;
+public class CommandRequest implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    private final String argument;
+    private final MusicBand band;
 
     public CommandRequest(String argument, MusicBand band) {
         this.argument = argument;
         this.band = band;
     }
 
-    public CommandRequest(String arguemt) {
-        this.argument = arguemt;
+    public CommandRequest(String argument) {
+        this.argument = argument;
         this.band = null;
     }
 

@@ -27,7 +27,7 @@ public abstract class CommandWithId extends CollectionCommand {
 
     @Override
     public boolean requiresBand() {
-        return true;
+        return false;
     }
 
     @Override

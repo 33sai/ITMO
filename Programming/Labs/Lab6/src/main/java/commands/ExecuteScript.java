@@ -1,3 +1,5 @@
+// LEGACY CLASS
+
 package commands;
 
 import argumentcommands.CommandWithOtherArgs;

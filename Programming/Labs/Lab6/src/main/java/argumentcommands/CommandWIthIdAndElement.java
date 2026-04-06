@@ -33,15 +33,7 @@ public abstract class CommandWIthIdAndElement extends CollectionCommand {
             return new CommandResult("No band found with ID " + id, false);
         }
 
-        String key = null;
-        for (String k : manager.getKeys()) {
-            if (manager.get(k).getId() == id) {
-                key = k;
-                break;
-            }
-        }
-
-        if (key == null) {
+        if (manager.findKeyByBandId(id).isEmpty()) {
             return new CommandResult("Error: band found but key missing.", false);
         }
 

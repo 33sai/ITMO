@@ -30,19 +30,14 @@ public class Update extends CommandWIthIdAndElement {
 
     @Override
     protected CommandResult executeInternal(CommandRequest request) {
-        MusicBand bandToUpdate = request.getBand();
-        Long id = Long.parseLong(request.getArgument());
+        long id = Long.parseLong(request.getArgument());
+        MusicBand replacement = MusicBand.createServerManagedCopy(request.getBand());
 
-        String key = "";
-        for (String k : manager.getKeys()) {
-            if (manager.get(k).getId() == id) {
-                key = k;
-                break;
-            }
+        boolean updated = manager.replaceBandById(id, replacement);
+        if (!updated) {
+            return new CommandResult("No band found with ID " + id, false);
         }
 
-        bandToUpdate.setId(id);
-        manager.add(key, bandToUpdate);
         return new CommandResult("Band with ID " + id + " updated.", true);
 
     }

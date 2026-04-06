@@ -8,22 +8,24 @@ import utilities.CollectionManager;
 
 public abstract class CommandWithKeyAndElement extends CollectionCommand {
 
-    private CommandRequest request;
 
     public CommandWithKeyAndElement(CollectionManager manager) {
         super(manager);
     }
 
     public CommandResult execute(CommandRequest request) {
-        MusicBand band = request.getBand();
         String key = request.getArgument();
         if (key == null || key.isEmpty()) {
             return new CommandResult("Usage: " + getUsage(), false);
         }
 
 
-        if (!manager.containsKey(key)) {
+        if (manager.containsKey(key)) {
             return new CommandResult("Band with key " + key + " is already used. Use 'update' to modify", false);
+        }
+
+        if (request.getBand() == null) {
+            return new CommandResult("No band data provided.", false);
         }
 
         return executeInternal(request);

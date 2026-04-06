@@ -1,11 +1,14 @@
 package models;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * This class represents a 2-dimensional coordinate.
  */
-public class Coordinates {
+public class Coordinates implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private double x;
     private Integer y;
 

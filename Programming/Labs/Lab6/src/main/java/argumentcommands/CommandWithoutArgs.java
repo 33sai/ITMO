@@ -18,7 +18,8 @@ public abstract class CommandWithoutArgs extends CollectionCommand {
 
     @Override
     public CommandResult execute(CommandRequest request) {
-        if (!request.getArgument().isEmpty()) {
+        String argument = request.getArgument();
+        if (argument != null && !argument.isEmpty()) {
             return new CommandResult("This command doesn't require arguments", false);
         }
 

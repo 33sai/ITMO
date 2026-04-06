@@ -3,8 +3,7 @@ package commands;
 import argumentcommands.CommandWithoutArgs;
 import commandsabstraction.CommandResult;
 import utilities.CollectionManager;
-import java.util.Map;
-import models.MusicBand;
+import java.util.stream.Collectors;
 
 
 public class Show extends CommandWithoutArgs {
@@ -20,14 +19,11 @@ public class Show extends CommandWithoutArgs {
             return new CommandResult("The collection is empty", true);
         }
 
-        StringBuilder output = new StringBuilder();
-        for (Map.Entry<String, MusicBand> entry : manager.getCollection().entrySet()) {
-            output.append("Key: ").append(entry.getKey()).append("\n");
-            output.append(entry.getValue()).append("\n");
-            output.append("=".repeat(67)).append("\n");
-        }
+        String output = manager.getEntriesSortedByBandName().stream()
+                .map(entry -> "Key: " + entry.getKey() + "\n" + entry.getValue() + "\n" + "=".repeat(67))
+                .collect(Collectors.joining("\n"));
 
-        return new CommandResult(output.toString(), true);
+        return new CommandResult(output, true);
     }
 
     @Override

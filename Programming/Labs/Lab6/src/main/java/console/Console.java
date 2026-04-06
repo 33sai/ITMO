@@ -1,3 +1,5 @@
+// LEGACY CLASS
+
 package console;
 
 import commandsabstraction.Command;
@@ -74,6 +76,7 @@ public class Console {
             } catch (Exception e) {
                 System.out.println("Error executing command: " + e.getMessage());
             }
+
         }
     }
 }
