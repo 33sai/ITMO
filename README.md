@@ -24,4 +24,4 @@ Includes:
 - homework  
 - random academic projects  
 
-from the System & Application Software program at ITMO 🤓
+from the System & Application Software program at ITMO
