@@ -20,7 +20,7 @@ CREATE TABLE Object (
 );
 
 CREATE TABLE State (
-    id BIGSERIAL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY REFERENCES Person(id),
     state_type state_type_enum NOT NULL,
     person_id BIGINT NOT NULL REFERENCES Person(id)
 );
