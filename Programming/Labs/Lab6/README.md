@@ -22,10 +22,10 @@ git clone https://github.com/33sai/ITMO/edit/master/Programming/Labs/Lab6
 mvn clean package
  
 # Start the server
-java -jar [JarName].jar server [port]
+java -jar [server].jar [port]
  
 # In a separate terminal — start the client
-java -jar [JarName] client [host] [port]
+java -jar [client].jar [host] [port]
 ```
  ## Roadmap
  

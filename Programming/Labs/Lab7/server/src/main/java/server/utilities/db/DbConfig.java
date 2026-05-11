@@ -28,7 +28,7 @@ public class DbConfig {
         String port = getEnvOrDefault("DB_PORT", "9000");
         String dbName = getEnvOrDefault("DB_NAME", "studs");
         String user = getEnvOrDefault("DB_USER", "s503266");
-        String password = getEnvOrDefault("DB_PASSWORD", "vzMfDAaaCyghQx1q");
+        String password = getEnvOrDefault("DB_PASSWORD", "");
         String url = "jdbc:postgresql://" + host + ":" + port + "/" + dbName;
         return new DbConfig(url, user, password);
     }
